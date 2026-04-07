@@ -1,63 +1,75 @@
 import pandas as pd
 import joblib
 
+# Machine Learning Libraries
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score
 
-# Load dataset
+
+# -----------------------------------
+# Load Cleaned Dataset
+# -----------------------------------
+
 data = pd.read_csv("data/cleaned_data.csv")
 
-print("Dataset Loaded")
+print("Dataset Loaded Successfully")
+print(data.head())
 
-# Encode categorical columns
-le = LabelEncoder()
 
-data["Company"] = le.fit_transform(data["Company"])
-data["Model"] = le.fit_transform(data["Model"])
-data["Body Style"] = le.fit_transform(data["Body Style"])
-data["Dealer_Region"] = le.fit_transform(data["Dealer_Region"])
-data["Transmission"] = le.fit_transform(data["Transmission"])
+# -----------------------------------
+# Feature Selection
+# -----------------------------------
 
-# Features
-X = data[
-    [
-        "Company",
-        "Model",
-        "Body Style",
-        "Annual Income",
-        "Dealer_Region",
-        "Transmission",
-        "Year",
-        "Month",
-    ]
-]
+# Input Features
+X = data[["Year", "Month"]]
 
-# Target
+# Target Variable
 y = data["Price"]
 
+
+# -----------------------------------
 # Train Test Split
+# -----------------------------------
+
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
 )
 
-# Train model
-model = RandomForestRegressor(n_estimators=100)
+
+# -----------------------------------
+# Model Training
+# -----------------------------------
+
+model = RandomForestRegressor(
+    n_estimators=100,
+    random_state=42
+)
 
 model.fit(X_train, y_train)
 
-print("Model trained successfully")
+print("Model Training Completed")
 
-# Prediction
+
+# -----------------------------------
+# Model Evaluation
+# -----------------------------------
+
 pred = model.predict(X_test)
 
-# Accuracy
 accuracy = r2_score(y_test, pred)
 
 print("Model Accuracy:", accuracy)
 
-# Save model
+
+# -----------------------------------
+# Save Model
+# -----------------------------------
+
 joblib.dump(model, "models/model.pkl")
 
-print("Model saved successfully")
+print("Model Saved Successfully")
+print("Location: models/model.pkl")
