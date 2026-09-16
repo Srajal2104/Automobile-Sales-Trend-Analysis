@@ -274,6 +274,8 @@ Possible future improvements include:<br><br>
 
 **Srajal Sahu**<br>
 B.Tech – Data Science<br><br>
+**Lavi Panwar**<br>
+B.Tech - Data Science<br><br>
 
 Interests:<br>
 Machine Learning • Data Analysis • Data Structures & Algorithms<br>
